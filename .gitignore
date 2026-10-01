@@ -1,0 +1,23 @@
+# Virtual environment
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data files are not versioned (they can be re-downloaded)
+data/raw/*
+data/processed/*
+!data/**/.gitkeep
+
+# Build artifacts (C++ module, later)
+build/
+*.so
+*.pyd
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
