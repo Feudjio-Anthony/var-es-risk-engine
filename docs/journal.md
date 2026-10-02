@@ -24,3 +24,8 @@
 - Done: Monte Carlo VaR/ES with Cholesky, cross-validation vs parametric, convergence study (figure), 2 new tests.
 - Blocking: nothing.
 - Next: session 6, rolling-window backtesting engine.
+
+## Session 6
+- Done: rolling-window backtest engine (window 500, three methods, three levels), violation counting, no-look-ahead test, results/backtest.csv.
+- Blocking: nothing.
+- Next: session 7, statistical validation tests (Kupiec, Christoffersen).
