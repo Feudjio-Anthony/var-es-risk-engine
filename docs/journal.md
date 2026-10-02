@@ -29,3 +29,9 @@
 - Done: rolling-window backtest engine (window 500, three methods, three levels), violation counting, no-look-ahead test, results/backtest.csv.
 - Blocking: nothing.
 - Next: session 7, statistical validation tests (Kupiec, Christoffersen).
+
+## Session 7
+- Done: Kupiec, Christoffersen independence, conditional coverage, Basel traffic light (last window + rolling shares), results/stat_tests.csv, 8 new tests.
+- Blocking: nothing.
+- Next: session 8, visualisation and reading of the results.
+
