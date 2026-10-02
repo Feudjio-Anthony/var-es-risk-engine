@@ -20,3 +20,7 @@
 - Blocking: nothing.
 - Next: session 5, Monte Carlo VaR/ES.
 
+## Session 5
+- Done: Monte Carlo VaR/ES with Cholesky, cross-validation vs parametric, convergence study (figure), 2 new tests.
+- Blocking: nothing.
+- Next: session 6, rolling-window backtesting engine.

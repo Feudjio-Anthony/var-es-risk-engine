@@ -1,10 +1,18 @@
 {
     "cSpell.words": [
         "Annualised",
+        "axhline",
+        "backtesting",
+        "chol",
+        "ddof",
         "figsize",
+        "linalg",
+        "loglog",
         "optimise",
         "riskengine",
+        "stds",
         "xlabel",
+        "xscale",
         "ylabel",
         "ylim",
         "yscale"

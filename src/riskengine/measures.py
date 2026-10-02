@@ -92,3 +92,58 @@ def parametric_var_es(returns, weights, alpha=0.99, v0=1_000_000.0):
     es = v0 * (sigma_p * stats.norm.pdf(z) / (1 - alpha) - mu_p)
 
     return float(var), float(es)
+
+
+def monte_carlo_var_es(returns, weights, alpha=0.99, v0=1_000_000.0,
+                       n_sims=50_000, seed=42):
+    """Gaussian Monte Carlo VaR and ES.
+
+    Instead of using a formula, we SIMULATE many scenarios of asset returns
+    from the estimated model, compute the portfolio P&L in each scenario,
+    and read VaR / ES on the simulated distribution (like historical
+    simulation, but on simulated scenarios instead of observed ones).
+
+    Parameters
+    ----------
+    returns : DataFrame (days x assets) of daily log-returns.
+    weights : vector of weights, in the SAME order as the columns of returns.
+    alpha : confidence level (0.99 means 99%).
+    v0 : portfolio value in euros.
+    n_sims : number of simulated scenarios.
+    seed : seed of the random generator. Fixed so results are reproducible.
+
+    Returns
+    -------
+    (var, es) : two positive floats, in euros.
+    """
+    mu = returns.mean().to_numpy()
+    cov = returns.cov().to_numpy()
+    w = np.asarray(weights, dtype=float)
+
+    # Cholesky decomposition: cov = L @ L.T, with L lower triangular.
+    # If z ~ N(0, I) (independent standard normals), then L @ z ~ N(0, cov):
+    # Cov(Lz) = L Cov(z) L' = L I L' = L L' = cov.
+    # The tiny epsilon on the diagonal keeps the matrix positive definite
+    # despite rounding errors.
+    chol = np.linalg.cholesky(cov + 1e-12 * np.eye(len(w)))
+
+    # A dedicated generator with a fixed seed: same seed = same numbers.
+    rng = np.random.default_rng(seed)
+
+    # One row per scenario, one column per asset: independent N(0, 1).
+    z = rng.standard_normal((n_sims, len(w)))
+
+    # Each ROW of z must become L @ z_row. In matrix form, that is z @ L.T
+    # (forgetting the ".T" is the classic bug). Then we add the mean.
+    sims = mu + z @ chol.T
+
+    # Portfolio P&L of each simulated scenario.
+    pnl = v0 * (sims @ w)
+
+    # Same reading as historical simulation, on simulated P&L.
+    q = np.quantile(pnl, 1.0 - alpha)
+    var = -q
+    tail = pnl[pnl <= q]
+    es = -tail.mean() if tail.size > 0 else var
+
+    return float(var), float(es)

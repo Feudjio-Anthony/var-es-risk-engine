@@ -3,7 +3,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from riskengine.measures import historical_var_es, parametric_var_es
+from riskengine.measures import (
+    historical_var_es,
+    monte_carlo_var_es,
+    parametric_var_es,
+)
 
 
 # ----------------------------------------------------------------------
@@ -82,3 +86,36 @@ def test_parametric_properties():
         assert es >= var
     assert results[0][0] < results[1][0] < results[2][0]
     assert results[0][1] < results[1][1] < results[2][1]
+
+
+# ----------------------------------------------------------------------
+# Monte Carlo
+# ----------------------------------------------------------------------
+def test_monte_carlo_matches_parametric():
+    """Both methods use the same Gaussian model: they must converge.
+
+    With 1,000,000 simulations the sampling error is well below 1%,
+    so a larger gap would mean a bug (typically a forgotten transpose).
+    """
+    returns = _simulate_gaussian_returns(n=50_000)
+    weights = np.full(5, 0.2)
+
+    for alpha in (0.95, 0.975, 0.99):
+        var_p, es_p = parametric_var_es(returns, weights, alpha)
+        var_mc, es_mc = monte_carlo_var_es(returns, weights, alpha,
+                                           n_sims=1_000_000)
+        assert var_mc == pytest.approx(var_p, rel=0.01)
+        assert es_mc == pytest.approx(es_p, rel=0.01)
+
+
+def test_monte_carlo_is_reproducible():
+    """Same seed gives exactly the same result; another seed does not."""
+    returns = _simulate_gaussian_returns(n=10_000)
+    weights = np.full(5, 0.2)
+
+    a = monte_carlo_var_es(returns, weights, n_sims=10_000, seed=7)
+    b = monte_carlo_var_es(returns, weights, n_sims=10_000, seed=7)
+    c = monte_carlo_var_es(returns, weights, n_sims=10_000, seed=8)
+
+    assert a == b
+    assert a != c
