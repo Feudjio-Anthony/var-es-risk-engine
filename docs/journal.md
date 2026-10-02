@@ -35,3 +35,7 @@
 - Blocking: nothing.
 - Next: session 8, visualisation and reading of the results.
 
+## Session 8
+- Done: four figures (P&L vs VaR, ES/VaR ratio, March 2020 zoom, violation rates), smoke tests, written commentary in docs/methodology.md.
+- Blocking: nothing.
+- Next: session 9, C++ Monte Carlo engine.

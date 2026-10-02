@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>journal.md</title>
+    <title>methodology.md</title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
     
 <style>
@@ -366,54 +366,31 @@ code {
 </head>
 
 <body>
-    <h1 id="project-journal">Project journal</h1>
-<h2 id="session-1">Session 1</h2>
+    <h1 id="methodology-and-reading-of-the-results">Methodology and reading of the results</h1>
+<h2 id="setup">Setup</h2>
+<p>Portfolio, data, rolling window (500 days), three methods, three confidence levels.</p>
+<h2 id="figure-1---pl-and-99-var">Figure 1 - P&amp;L and 99% VaR</h2>
 <ul>
-<li>Done: repo structure, virtual environment, price download (5 ETFs, 2006-2025).</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 2, compute log-returns and the portfolio P&amp;L series.</li>
+<li>Which method moves the most, which the least, and why?</li>
+<li>Where are the violations concentrated (which periods)?</li>
 </ul>
-<h2 id="session-2">Session 2</h2>
+<h2 id="figure-2---esvar-ratio">Figure 2 - ES/VaR ratio</h2>
 <ul>
-<li>Done: log-returns, equal-weight portfolio P&amp;L, sanity checks, two figures.</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 3, historical-simulation VaR and ES.</li>
+<li>By how much does the empirical ratio exceed the Gaussian 1.15 at 99%?</li>
+<li>What does this say about the tails?</li>
 </ul>
-<h2 id="session-3">Session 3</h2>
+<h2 id="figure-3---march-2020-zoom">Figure 3 - March 2020 zoom</h2>
 <ul>
-<li>Done: historical VaR/ES in measures.py (sign convention documented), summary table, 3 unit tests.</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 4, parametric (Gaussian) VaR and ES.</li>
+<li>What does the historical VaR do during the first days of the crash?</li>
+<li>How many days does it take to adjust?</li>
 </ul>
-<h2 id="session-4">Session 4</h2>
+<h2 id="figure-4---violation-rates">Figure 4 - Violation rates</h2>
 <ul>
-<li>Done: parametric Gaussian VaR/ES (variance-covariance), comparison with historical, 2 new tests (agreement on simulated Gaussian data).</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 5, Monte Carlo VaR/ES.</li>
+<li>Who underestimates risk, and by how much?</li>
 </ul>
-<h2 id="session-5">Session 5</h2>
+<h2 id="limits">Limits</h2>
 <ul>
-<li>Done: Monte Carlo VaR/ES with Cholesky, cross-validation vs parametric, convergence study (figure), 2 new tests.</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 6, rolling-window backtesting engine.</li>
-</ul>
-<h2 id="session-6">Session 6</h2>
-<ul>
-<li>Done: rolling-window backtest engine (window 500, three methods, three levels), violation counting, no-look-ahead test, results/backtest.csv.</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 7, statistical validation tests (Kupiec, Christoffersen).</li>
-</ul>
-<h2 id="session-7">Session 7</h2>
-<ul>
-<li>Done: Kupiec, Christoffersen independence, conditional coverage, Basel traffic light (last window + rolling shares), results/stat_tests.csv, 8 new tests.</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 8, visualisation and reading of the results.</li>
-</ul>
-<h2 id="session-8">Session 8</h2>
-<ul>
-<li>Done: four figures (P&amp;L vs VaR, ES/VaR ratio, March 2020 zoom, violation rates), smoke tests, written commentary in docs/methodology.md.</li>
-<li>Blocking: nothing.</li>
-<li>Next: session 9, C++ Monte Carlo engine.</li>
+<li>Constant volatility, no clustering model: what the tests of session 7 showed.</li>
 </ul>
 
 </body>
