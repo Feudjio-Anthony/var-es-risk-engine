@@ -14,3 +14,9 @@
 - Done: historical VaR/ES in measures.py (sign convention documented), summary table, 3 unit tests.
 - Blocking: nothing.
 - Next: session 4, parametric (Gaussian) VaR and ES.
+
+## Session 4
+- Done: parametric Gaussian VaR/ES (variance-covariance), comparison with historical, 2 new tests (agreement on simulated Gaussian data).
+- Blocking: nothing.
+- Next: session 5, Monte Carlo VaR/ES.
+
