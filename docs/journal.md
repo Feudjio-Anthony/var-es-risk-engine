@@ -9,3 +9,8 @@
 - Done: log-returns, equal-weight portfolio P&L, sanity checks, two figures.
 - Blocking: nothing.
 - Next: session 3, historical-simulation VaR and ES.
+
+## Session 3
+- Done: historical VaR/ES in measures.py (sign convention documented), summary table, 3 unit tests.
+- Blocking: nothing.
+- Next: session 4, parametric (Gaussian) VaR and ES.
