@@ -39,3 +39,8 @@
 - Done: four figures (P&L vs VaR, ES/VaR ratio, March 2020 zoom, violation rates), smoke tests, written commentary in docs/methodology.md.
 - Blocking: nothing.
 - Next: session 9, C++ Monte Carlo engine.
+
+## Session 9
+- Done: C++ Monte Carlo engine with pybind11 (fused Cholesky + sampling + portfolio projection), ziggurat/xoshiro sampler after profiling showed std::normal_distribution slower than NumPy, build script, 7 tests.
+- Blocking: nothing (if the compiler is missing: skip C++, see guide).
+- Next: session 10, plug the C++ backend into measures.py and validate it statistically over 20 seeds.

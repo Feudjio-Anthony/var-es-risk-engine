@@ -2,11 +2,17 @@
 
 Each function builds ONE figure, saves it as a PNG (150 dpi) and returns the
 matplotlib Figure object. All figures share the same sober palette.
+
+Layout rules shared by all figures:
+    - legends sit BELOW the plot, so they never hide data or labels;
+    - large numbers use a thousands separator (20,000 instead of 20000);
+    - the date axes carry no stray offset label.
 """
 from pathlib import Path
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import numpy as np
 from scipy import stats
 
@@ -39,17 +45,52 @@ def _pct(alpha_tag):
 
 
 def _format_dates(ax):
-    """Readable date labels on the x axis."""
+    """Readable date labels for a long period (years)."""
     locator = mdates.AutoDateLocator()
     ax.xaxis.set_major_locator(locator)
     ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(locator))
 
 
+def _format_dates_weekly(ax):
+    """One tick per Monday, written '03 Feb'.
+
+    We use a plain DateFormatter (not the 'concise' one): the concise
+    formatter adds an extra offset label such as '2020-Apr' in the corner.
+    """
+    ax.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.MO))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%d %b"))
+
+
+def _thousands(ax):
+    """Write 20000 as 20,000 on the y axis."""
+    ax.yaxis.set_major_formatter(mticker.StrMethodFormatter("{x:,.0f}"))
+
+
+def _legend_below(ax, ncol=3, first=None, offset=-0.17):
+    """Put the legend under the plot, so it never hides any data.
+
+    first : label to list first (e.g. the P&L, which matplotlib would
+            otherwise list last when it is drawn as bars).
+    """
+    handles, labels = ax.get_legend_handles_labels()
+    if first in labels:
+        order = [labels.index(first)] + [i for i, lab in enumerate(labels)
+                                         if lab != first]
+        handles = [handles[i] for i in order]
+        labels = [labels[i] for i in order]
+    ax.legend(handles, labels, loc="upper center",
+              bbox_to_anchor=(0.5, offset), ncol=ncol)
+
+
 def _save(fig, out):
-    """Create the output folder if needed, then save the figure."""
+    """Create the output folder if needed, then save the figure.
+
+    bbox_inches="tight" enlarges the image so that a legend placed outside
+    the axes is never cut off.
+    """
     Path(out).parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
-    fig.savefig(out, dpi=150)
+    fig.savefig(out, dpi=150, bbox_inches="tight")
 
 
 # ----------------------------------------------------------------------
@@ -83,7 +124,8 @@ def plot_pnl_vs_var(results, alpha_tag=990, violation_method="hist",
     ax.set_title(f"Realised P&L and {_pct(alpha_tag)} VaR "
                  "- multi-asset portfolio, 1-day horizon")
     _format_dates(ax)
-    ax.legend(loc="lower left")
+    _thousands(ax)
+    _legend_below(ax, ncol=3, first="Daily P&L")
     _save(fig, out)
     return fig
 
@@ -172,11 +214,12 @@ def plot_covid_zoom(results, alpha_tag=990, start="2020-02-03",
                    zorder=3, label=f"Violations, {LABELS[m]} "
                                    f"({int(viol.sum())})", **style)
 
-    ax.set_xlabel("Date")
+    ax.set_xlabel("Date (2020)")
     ax.set_ylabel("Daily P&L (EUR)")
     ax.set_title("Zoom on the March 2020 crash: how fast does each VaR react?")
-    _format_dates(ax)
-    ax.legend(loc="lower left")
+    _format_dates_weekly(ax)
+    _thousands(ax)
+    _legend_below(ax, ncol=3, first="Daily P&L")
     _save(fig, out)
     return fig
 
@@ -203,16 +246,18 @@ def plot_violation_rates(results, alphas=(0.95, 0.975, 0.99),
 
         expected = 100 * (1 - a)
         ax.axhline(expected, color=ALPHA_COLORS[a], ls="--", lw=1.4, zorder=1)
-        ax.text(len(METHODS) - 0.42, expected, f"expected {expected:g}%",
-                va="bottom", ha="right", fontsize=8.5,
-                color=ALPHA_COLORS[a])
+        # The label sits to the RIGHT of the last group of bars, in a margin
+        # reserved for it, so no bar can ever hide it.
+        ax.text(len(METHODS) - 0.5, expected, f" expected {expected:g}%",
+                va="bottom", ha="left", fontsize=8.5, color="#333333")
 
     ax.set_xticks(x)
     ax.set_xticklabels([LABELS[m] for m in METHODS])
     ax.set_xlabel("Method")
     ax.set_ylabel("Violation rate (% of days)")
     ax.set_title("Observed vs expected violation rates (out-of-sample)")
-    ax.set_xlim(-0.6, len(METHODS) - 0.4)
-    ax.legend(loc="upper left")
+    ax.set_xlim(-0.6, len(METHODS) + 0.15)    # extra room on the right
+    ax.set_ylim(0, summary["observed %"].max() * 1.12)
+    _legend_below(ax, ncol=3, offset=-0.16)
     _save(fig, out)
     return fig

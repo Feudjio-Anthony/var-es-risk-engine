@@ -415,6 +415,12 @@ code {
 <li>Blocking: nothing.</li>
 <li>Next: session 9, C++ Monte Carlo engine.</li>
 </ul>
+<h2 id="session-9">Session 9</h2>
+<ul>
+<li>Done: C++ Monte Carlo engine with pybind11 (fused Cholesky + sampling + portfolio projection), ziggurat/xoshiro sampler after profiling showed std::normal_distribution slower than NumPy, build script, 7 tests.</li>
+<li>Blocking: nothing (if the compiler is missing: skip C++, see guide).</li>
+<li>Next: session 10, plug the C++ backend into measures.py and validate it statistically over 20 seeds.</li>
+</ul>
 
 </body>
 
