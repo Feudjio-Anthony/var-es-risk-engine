@@ -80,6 +80,7 @@ var-es-risk-engine/
 ├── scripts/                # download_data, build_pnl, run_backtest, run_stat_tests,
 │                           # make_figures, compare_backends, benchmark_cpp, plot_benchmark
 ├── tests/                  # pytest suite (36 tests)
+├── notebooks/              # demo.ipynb: end-to-end demonstration, outputs saved
 ├── results/                # backtest, statistical tests and benchmark tables (CSV)
 ├── figures/                # figures used in this README and in docs/
 └── docs/                   # methodology and project journal
@@ -128,6 +129,7 @@ python scripts/run_stat_tests.py
 python scripts/make_figures.py
 python scripts/benchmark_cpp.py
 python scripts/plot_benchmark.py
+python scripts/make_notebook.py                      # regenerate notebooks/demo.ipynb (then execute it with jupyter nbconvert)
 ```
 
 Use the library directly:

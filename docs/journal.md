@@ -65,3 +65,8 @@
 ## Session 12 - README
 - Wrote the README: results first (99% table, rates by level, conclusions), performance as ratios with machine description, methodology, structure, installation (Windows and Linux/macOS), usage, limitations and roadmap, references.
 - Every number comes from results/*.csv or docs/methodology.md. Known inefficiency (same scenarios simulated three times per date) listed as a limitation instead of being fixed.
+
+
+## Session 13 - Demonstration notebook
+- Wrote scripts/make_notebook.py, which generates notebooks/demo.ipynb in eight sections (context, data, portfolio, the three methods, Monte Carlo convergence, backtest, statistical tests, C++ performance). The notebook defines no function: it only imports riskengine.
+- Executed top to bottom with a fresh kernel (jupyter nbconvert --execute), outputs saved so it reads on GitHub. 7 figures at reduced resolution.
