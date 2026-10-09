@@ -1,0 +1,8 @@
+CPU            : 11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz
+Logical cores  : 8
+RAM            : 32 GB
+OS             : Windows-11-10.0.26300-SP0
+Python         : 3.13.14
+NumPy          : 2.5.3
+pandas         : 3.0.6
+C++ compiler   : MSVC, flags /O2 /GL /DNDEBUG /MD (see build log)

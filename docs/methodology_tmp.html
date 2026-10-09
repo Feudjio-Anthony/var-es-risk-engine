@@ -522,7 +522,35 @@ python scripts/run_stat_tests.py
 python scripts/make_figures.py
 python <span class="hljs-literal">-m</span> pytest
 </div></code></pre>
-<p>Python baseline: the full backtest (4,530 forecasts x 3 methods x 3 levels, 50,000 scenarios) runs in 70 seconds. To be updated after the C++ Monte Carlo module.</p>
+<h3 id="performance">Performance</h3>
+<p>Measured on an Intel i7-1185G7 laptop (32 GB, Windows 11), MSVC with /O2. The laptop's speed drifts by about 2x between runs, so only ratios between implementations timed back to back are reported.</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>C++ speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scenario generation vs NumPy (&gt;= 50,000 scenarios)</td>
+<td>about 2x</td>
+</tr>
+<tr>
+<td>Scenario generation vs NumPy with weights folded into the Cholesky factor</td>
+<td>about 1.4x</td>
+</tr>
+<tr>
+<td><code>monte_carlo_var_es</code> call (&gt;= 50,000 scenarios)</td>
+<td>about 1.9x</td>
+</tr>
+<tr>
+<td>Full rolling backtest (50,000 scenarios per forecast)</td>
+<td>about 1.5x (1.47-1.59x across runs)</td>
+</tr>
+</tbody>
+</table>
+<p>The gain shrinks as the scope widens because only the simulation is accelerated; pandas estimation, quantiles and the other two methods are unchanged. About half of the kernel gain (1.45x) comes from algebra alone (folding the weights into the Cholesky factor, so the N x 5 matrix of simulated returns is never built); the rest comes from fusing generation and aggregation in one loop (and possibly a faster generator).</p>
 
 </body>
 

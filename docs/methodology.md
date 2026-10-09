@@ -92,4 +92,15 @@ python scripts/make_figures.py
 python -m pytest
 ```
 
-Python baseline: the full backtest (4,530 forecasts x 3 methods x 3 levels, 50,000 scenarios) runs in 70 seconds. To be updated after the C++ Monte Carlo module.
+### Performance
+
+Measured on an Intel i7-1185G7 laptop (32 GB, Windows 11), MSVC with /O2. The laptop's speed drifts by about 2x between runs, so only ratios between implementations timed back to back are reported.
+
+| Scope | C++ speed-up |
+|---|---|
+| Scenario generation vs NumPy (>= 50,000 scenarios) | about 2x |
+| Scenario generation vs NumPy with weights folded into the Cholesky factor | about 1.4x |
+| `monte_carlo_var_es` call (>= 50,000 scenarios) | about 1.9x |
+| Full rolling backtest (50,000 scenarios per forecast) | about 1.5x (1.47-1.59x across runs) |
+
+The gain shrinks as the scope widens because only the simulation is accelerated; pandas estimation, quantiles and the other two methods are unchanged. About half of the kernel gain (1.45x) comes from algebra alone (folding the weights into the Cholesky factor, so the N x 5 matrix of simulated returns is never built); the rest comes from fusing generation and aggregation in one loop (and possibly a faster generator).

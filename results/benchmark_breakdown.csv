@@ -1,0 +1,5 @@
+stage,ms
+pandas mean + cov (500 days),0.5471999902511016
+"simulate scenarios, NumPy",4.367200002889149
+"simulate scenarios, C++",2.48910000664182
+quantile + ES tail,0.8054999925661832

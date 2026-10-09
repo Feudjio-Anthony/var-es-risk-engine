@@ -52,3 +52,11 @@
 - 20-seed validation (VaR and ES, 95% and 99%): backends agree within 1%, and the C++ mean converges to the analytical Gaussian value. Exact equality is impossible (different RNGs).
 - Full backtest with C++: hist/param columns identical; Monte Carlo violations 217/137/87 (C++) vs 217/137/86 (Python) at 95/97.5/99%. The day-by-day gap (0.7-0.9% on average) matches the expected Monte Carlo noise of two independent runs.
 - Timings were measured under different machine loads, so no speed claim yet; proper benchmark in session 11.
+
+
+## Session 11 - Benchmark
+- Benchmarked NumPy vs C++ at four scopes (kernel, function, per-forecast breakdown, full backtest). Machine: i7-1185G7 laptop, 32 GB, Windows 11, MSVC /O2 /GL.
+- Laptop speed drifts by ~2x between runs (thermal / turbo), so absolute times are not quotable. Switched to interleaved measurements and ratios, with a median/minimum noise indicator per point.
+- Results (ratios): kernel ~2x vs NumPy at >= 50k scenarios, ~1.4x vs NumPy with weights folded into Cholesky; monte_carlo_var_es ~1.9x; full backtest ~1.5x (1.47-1.59x across runs).
+- Decomposition at 1M scenarios: folding the weights alone gives 1.45x in NumPy; fused C++ loop gives another 1.44x (part of it may come from a faster RNG). The gain shrinks as the scope widens (Amdahl): pandas, quantile and the other methods are unchanged.
+- Finding: the backtest simulates the same scenarios three times per day (once per confidence level). Next: simulate once per day.
