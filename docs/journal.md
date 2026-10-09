@@ -41,13 +41,14 @@
 - Next: session 9, C++ Monte Carlo engine.
 
 
-## Session 9
-- Done: C++ Monte Carlo engine with pybind11 (fused Cholesky + sampling + portfolio projection), ziggurat/xoshiro sampler after profiling showed std::normal_distribution slower than NumPy, build script, 7 tests.
-- Blocking: nothing (if the compiler is missing: skip C++, see guide).
-- Next: session 10, plug the C++ backend into measures.py and validate it statistically over 20 seeds.
-
 ## Session 9 - C++ Monte Carlo engine (pybind11)
 - Built `cpp/mc_engine.cpp`: Cholesky + one-pass P&L (weights folded into the Cholesky factor), ziggurat normal sampler on xoshiro256++. Tests (KS, tails, correlation, reproducibility, error handling): 7 passed.
 - Profiling: `std::normal_distribution` + mt19937_64 was slower than NumPy's sampler, so I replaced it. Measured on MSVC: ~2.65x faster than NumPy for >= 100k scenarios (1.4x at 10k).
 - NumPy and C++ use different generators, so validation has to be statistical, not bit-for-bit.
 
+
+## Session 10 - C++ backend integration and validation
+- Added a switchable `backend="python"|"cpp"` parameter to `monte_carlo_var_es` and `rolling_backtest`; both backends use the same regularised covariance matrix.
+- 20-seed validation (VaR and ES, 95% and 99%): backends agree within 1%, and the C++ mean converges to the analytical Gaussian value. Exact equality is impossible (different RNGs).
+- Full backtest with C++: hist/param columns identical; Monte Carlo violations 217/137/87 (C++) vs 217/137/86 (Python) at 95/97.5/99%. The day-by-day gap (0.7-0.9% on average) matches the expected Monte Carlo noise of two independent runs.
+- Timings were measured under different machine loads, so no speed claim yet; proper benchmark in session 11.

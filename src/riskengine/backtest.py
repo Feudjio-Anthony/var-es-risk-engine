@@ -19,7 +19,7 @@ METHODS = ("hist", "param", "mc")
 
 def rolling_backtest(returns, pnl, weights, window=500,
                      alphas=(0.95, 0.975, 0.99), v0=1_000_000.0,
-                     n_sims=50_000, verbose=True):
+                     n_sims=50_000, backend="python", verbose=True):
     """Produce out-of-sample VaR and ES forecasts for the three methods.
 
     Parameters
@@ -31,6 +31,8 @@ def rolling_backtest(returns, pnl, weights, window=500,
     alphas : confidence levels.
     v0 : portfolio value in euros.
     n_sims : number of Monte Carlo scenarios per forecast.
+    backend : "python" (NumPy) or "cpp" (compiled module) for Monte Carlo.
+        Only the Monte Carlo columns depend on it.
     verbose : print a progress message every 500 forecasts.
 
     Returns
@@ -76,8 +78,8 @@ def rolling_backtest(returns, pnl, weights, window=500,
             row[f"param_var_{tag}"], row[f"param_es_{tag}"] = v, e
 
             # seed=i: a different but reproducible seed for each date.
-            v, e = monte_carlo_var_es(win_ret, w, a, v0,
-                                      n_sims=n_sims, seed=i)
+            v, e = monte_carlo_var_es(win_ret, w, a, v0, n_sims=n_sims,
+                                      seed=i, backend=backend)
             row[f"mc_var_{tag}"], row[f"mc_es_{tag}"] = v, e
 
         rows.append(row)

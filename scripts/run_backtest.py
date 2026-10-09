@@ -1,8 +1,10 @@
 """Run the rolling-window backtest and save the results.
 
 Run from the project root:
-    python scripts/run_backtest.py --fast     (quick test, 2018-2022)
-    python scripts/run_backtest.py            (full run, takes several minutes)
+    python scripts/run_backtest.py --fast                  (quick test)
+    python scripts/run_backtest.py                         (full run, Python)
+    python scripts/run_backtest.py --backend cpp           (full run, C++)
+    python scripts/run_backtest.py --fast --backend cpp    (quick test, C++)
 """
 import argparse
 import time
@@ -25,6 +27,8 @@ def main():
     parser = argparse.ArgumentParser(description="Rolling-window VaR/ES backtest")
     parser.add_argument("--fast", action="store_true",
                         help="short period and fewer simulations, for quick tests")
+    parser.add_argument("--backend", choices=("python", "cpp"), default="python",
+                        help="implementation of the Monte Carlo simulation")
     args = parser.parse_args()
 
     prices = load_prices()
@@ -38,19 +42,25 @@ def main():
         # falls around the end of 2017 and the test covers 2018-2022.
         returns = returns.loc["2016-01-01":"2022-12-31"]
         n_sims = 5_000
-        output_file = RESULTS_DIR / "backtest_fast.csv"
+        stem = "backtest_fast"
     else:
         n_sims = 50_000
-        output_file = RESULTS_DIR / "backtest.csv"
+        stem = "backtest"
+
+    # The Python results keep their historical file name; the C++ ones get
+    # a "_cpp" suffix so both tables can be compared side by side.
+    suffix = "_cpp" if args.backend == "cpp" else ""
+    output_file = RESULTS_DIR / f"{stem}{suffix}.csv"
 
     # Recompute the P&L from the (possibly shortened) returns so both
     # series always share exactly the same index.
     pnl = portfolio_pnl(returns)
 
-    print(f"Backtest on {len(returns)} days, window = 500, n_sims = {n_sims:,}")
+    print(f"Backtest on {len(returns)} days, window = 500, "
+          f"n_sims = {n_sims:,}, backend = {args.backend}")
     start = time.time()
-    results = rolling_backtest(returns, pnl, DEFAULT_WEIGHTS,
-                               window=500, n_sims=n_sims)
+    results = rolling_backtest(returns, pnl, DEFAULT_WEIGHTS, window=500,
+                               n_sims=n_sims, backend=args.backend)
     elapsed = time.time() - start
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

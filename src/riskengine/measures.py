@@ -95,13 +95,17 @@ def parametric_var_es(returns, weights, alpha=0.99, v0=1_000_000.0):
 
 
 def monte_carlo_var_es(returns, weights, alpha=0.99, v0=1_000_000.0,
-                       n_sims=50_000, seed=42):
+                       n_sims=50_000, seed=42, backend="python"):
     """Gaussian Monte Carlo VaR and ES.
 
     Instead of using a formula, we SIMULATE many scenarios of asset returns
     from the estimated model, compute the portfolio P&L in each scenario,
     and read VaR / ES on the simulated distribution (like historical
     simulation, but on simulated scenarios instead of observed ones).
+
+    Two interchangeable implementations of the scenario generator exist.
+    They share exactly the same model; only the code that draws the random
+    numbers and builds the P&L differs.
 
     Parameters
     ----------
@@ -111,34 +115,55 @@ def monte_carlo_var_es(returns, weights, alpha=0.99, v0=1_000_000.0,
     v0 : portfolio value in euros.
     n_sims : number of simulated scenarios.
     seed : seed of the random generator. Fixed so results are reproducible.
+        The two backends use different generators, so the same seed gives
+        statistically equivalent but NOT identical numbers.
+    backend : "python" (NumPy, the reference) or "cpp" (compiled module).
 
     Returns
     -------
     (var, es) : two positive floats, in euros.
     """
+    if backend not in ("python", "cpp"):
+        raise ValueError(f"backend must be 'python' or 'cpp', got {backend!r}")
+
     mu = returns.mean().to_numpy()
     cov = returns.cov().to_numpy()
     w = np.asarray(weights, dtype=float)
 
-    # Cholesky decomposition: cov = L @ L.T, with L lower triangular.
-    # If z ~ N(0, I) (independent standard normals), then L @ z ~ N(0, cov):
-    # Cov(Lz) = L Cov(z) L' = L I L' = L L' = cov.
-    # The tiny epsilon on the diagonal keeps the matrix positive definite
-    # despite rounding errors.
-    chol = np.linalg.cholesky(cov + 1e-12 * np.eye(len(w)))
+    # Tiny value added on the diagonal so the matrix stays positive definite
+    # despite rounding errors. Both backends get the SAME regularised matrix.
+    cov_reg = cov + 1e-12 * np.eye(len(w))
 
-    # A dedicated generator with a fixed seed: same seed = same numbers.
-    rng = np.random.default_rng(seed)
+    if backend == "cpp":
+        # Imported here (not at the top of the file) so the project still
+        # works on a machine where the C++ module has not been compiled.
+        try:
+            from . import mc_engine
+        except ImportError as exc:
+            raise ImportError(
+                "The C++ backend is not compiled. From the cpp/ folder, run: "
+                "python setup.py build_ext --build-lib ../src"
+            ) from exc
+        # The C++ code returns directly the vector of portfolio P&L.
+        pnl = mc_engine.simulate_pnl(mu, cov_reg, w, int(n_sims), v0, int(seed))
+    else:
+        # Cholesky decomposition: cov = L @ L.T, with L lower triangular.
+        # If z ~ N(0, I) (independent standard normals), then L @ z ~ N(0, cov):
+        # Cov(Lz) = L Cov(z) L' = L I L' = L L' = cov.
+        chol = np.linalg.cholesky(cov_reg)
 
-    # One row per scenario, one column per asset: independent N(0, 1).
-    z = rng.standard_normal((n_sims, len(w)))
+        # A dedicated generator with a fixed seed: same seed = same numbers.
+        rng = np.random.default_rng(seed)
 
-    # Each ROW of z must become L @ z_row. In matrix form, that is z @ L.T
-    # (forgetting the ".T" is the classic bug). Then we add the mean.
-    sims = mu + z @ chol.T
+        # One row per scenario, one column per asset: independent N(0, 1).
+        z = rng.standard_normal((n_sims, len(w)))
 
-    # Portfolio P&L of each simulated scenario.
-    pnl = v0 * (sims @ w)
+        # Each ROW of z must become L @ z_row. In matrix form, that is z @ L.T
+        # (forgetting the ".T" is the classic bug). Then we add the mean.
+        sims = mu + z @ chol.T
+
+        # Portfolio P&L of each simulated scenario.
+        pnl = v0 * (sims @ w)
 
     # Same reading as historical simulation, on simulated P&L.
     q = np.quantile(pnl, 1.0 - alpha)
