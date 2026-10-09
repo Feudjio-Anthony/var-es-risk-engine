@@ -436,6 +436,11 @@ code {
 <li>Decomposition at 1M scenarios: folding the weights alone gives 1.45x in NumPy; fused C++ loop gives another 1.44x (part of it may come from a faster RNG). The gain shrinks as the scope widens (Amdahl): pandas, quantile and the other methods are unchanged.</li>
 <li>Finding: the backtest simulates the same scenarios three times per day (once per confidence level). Next: simulate once per day.</li>
 </ul>
+<h2 id="session-12---readme">Session 12 - README</h2>
+<ul>
+<li>Wrote the README: results first (99% table, rates by level, conclusions), performance as ratios with machine description, methodology, structure, installation (Windows and Linux/macOS), usage, limitations and roadmap, references.</li>
+<li>Every number comes from results/*.csv or docs/methodology.md. Known inefficiency (same scenarios simulated three times per date) listed as a limitation instead of being fixed.</li>
+</ul>
 
 </body>
 

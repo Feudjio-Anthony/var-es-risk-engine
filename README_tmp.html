@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>README.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///r%3A/2.Travail/1.Enseignement/Cours/_1.Outils/2.Developpement/1.SCSS/main.css" type="text/css"><link rel="stylesheet" href="file:///d%3A/rdaros/Cours/_1.Outils/2.Developpement/1.SCSS/main.css" type="text/css">
+</head>
+
+<body>
+    <h1 id="var--expected-shortfall-a-backtested-multi-method-risk-engine">VaR &amp; Expected Shortfall: a Backtested Multi-Method Risk Engine</h1>
+<p>A Value at Risk (VaR) and Expected Shortfall (ES) engine for a multi-asset portfolio, validated by an out-of-sample backtest: 4,530 daily forecasts per method, from 2007 to 2025. Three methods are compared (historical simulation, Gaussian parametric, Gaussian Monte Carlo) and tested with Kupiec, Christoffersen and the Basel traffic light. The Monte Carlo core is written in C++ and exposed to Python with pybind11.</p>
+<p><img src="file:///c:/Users/feudj/Desktop/Ecoles/Cycle_Ingenieur/ESILV/Year_4/Semestre_7/Personal_Projects/var-es-risk-engine/figures/fig1_pnl_var.png" alt="P&amp;L and 99% VaR"></p>
+<h2 id="results">Results</h2>
+<p>Rolling window of 500 days, 4,530 out-of-sample forecasts per method (2007-12-31 to 2025-12-31), equally weighted portfolio of 5 ETFs (SPY, EEM, IEF, GLD, FXE), 1-day horizon.</p>
+<p><strong>99% VaR (expected: 45.3 violations, 1.00%)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th style="text-align:right">Violations</th>
+<th style="text-align:right">Rate</th>
+<th style="text-align:right">Kupiec p (frequency)</th>
+<th style="text-align:right">Christoffersen p (independence)</th>
+<th style="text-align:center">Basel zone, last 250 days</th>
+<th style="text-align:center">Share of rolling 250-day windows in yellow / red</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Historical</td>
+<td style="text-align:right">55</td>
+<td style="text-align:right">1.21%</td>
+<td style="text-align:right">0.16</td>
+<td style="text-align:right">4.8e-4</td>
+<td style="text-align:center">Green</td>
+<td style="text-align:center">4.1% / 9.6%</td>
+</tr>
+<tr>
+<td>Parametric (Gaussian)</td>
+<td style="text-align:right">87</td>
+<td style="text-align:right">1.92%</td>
+<td style="text-align:right">3.3e-8</td>
+<td style="text-align:right">6.2e-8</td>
+<td style="text-align:center">Green</td>
+<td style="text-align:center">16.8% / 16.3%</td>
+</tr>
+<tr>
+<td>Monte Carlo (Gaussian)</td>
+<td style="text-align:right">86</td>
+<td style="text-align:right">1.90%</td>
+<td style="text-align:right">6.4e-8</td>
+<td style="text-align:right">4.7e-8</td>
+<td style="text-align:center">Green</td>
+<td style="text-align:center">16.4% / 16.3%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Violation rate by confidence level</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th style="text-align:right">95% (expected 5%)</th>
+<th style="text-align:right">97.5% (expected 2.5%)</th>
+<th style="text-align:right">99% (expected 1%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Historical</td>
+<td style="text-align:right">5.03%</td>
+<td style="text-align:right">2.65%</td>
+<td style="text-align:right">1.21%</td>
+</tr>
+<tr>
+<td>Parametric</td>
+<td style="text-align:right">4.86%</td>
+<td style="text-align:right">3.02%</td>
+<td style="text-align:right">1.92%</td>
+</tr>
+<tr>
+<td>Monte Carlo</td>
+<td style="text-align:right">4.79%</td>
+<td style="text-align:right">3.02%</td>
+<td style="text-align:right">1.90%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusions</strong></p>
+<ul>
+<li><strong>The Gaussian assumption fails in the tail.</strong> The two Gaussian methods are violated almost twice as often as expected at 99%, and the Kupiec test rejects them (p &lt; 1e-7). Near the centre (95%) they are fine, so the cost of normality shows up exactly where VaR is used.</li>
+<li><strong>Historical simulation passes the frequency test</strong> (55 violations for 45 expected, p = 0.16). This is the absence of evidence against it, not proof that it is right: the test has limited power at this sample size.</li>
+<li><strong>No method passes the independence test, at any level</strong> (p &lt; 5e-4 in all nine cases). Violations come in clusters: after a violation, the probability of another one the next day is 9.1% (historical) and 13.8% (parametric) at 99%, against about 1% to 2% after a calm day. All three models assume constant volatility.</li>
+<li><strong>Two failure modes.</strong> In ordinary years the Gaussian methods violate two to three times more than the historical one (fat tails). In 2008 and 2020 all methods fail together (volatility regime change). The historical VaR also has a &quot;ghost effect&quot;: it fell 26% in a single day on 2022-03-03, only because the March 2020 crash left the 500-day window.</li>
+<li><strong>The empirical tail is fatter than Gaussian</strong>: the average ES/VaR ratio at 99% is 1.34 for historical simulation (rolling windows) against 1.15 under a Gaussian model.</li>
+</ul>
+<p>Details, figure-by-figure readings and the full test table: <a href="docs/methodology.md">docs/methodology.md</a>.</p>
+<p><img src="file:///c:/Users/feudj/Desktop/Ecoles/Cycle_Ingenieur/ESILV/Year_4/Semestre_7/Personal_Projects/var-es-risk-engine/figures/fig4_violation_rates.png" alt="Violation rates"></p>
+<h2 id="performance">Performance</h2>
+<p>The Monte Carlo scenario generator exists in two interchangeable versions (<code>backend=&quot;python&quot;</code> with NumPy, <code>backend=&quot;cpp&quot;</code> with the compiled module). They share the same model; because they use different random number generators, they are validated statistically (20 seeds, agreement within 1%, and convergence to the closed-form Gaussian VaR), not bit for bit.</p>
+<p>Measured on an Intel Core i7-1185G7 laptop (32 GB, Windows 11, MSVC <code>/O2</code>). On a laptop the absolute speed drifts by about 2x between runs, so only <strong>ratios between implementations timed back to back</strong> are reported.</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th style="text-align:right">C++ speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scenario generation vs NumPy (50,000 scenarios or more)</td>
+<td style="text-align:right">about 2x</td>
+</tr>
+<tr>
+<td>Scenario generation vs NumPy with weights folded into the Cholesky factor</td>
+<td style="text-align:right">about 1.4x</td>
+</tr>
+<tr>
+<td><code>monte_carlo_var_es</code> call (50,000 scenarios or more)</td>
+<td style="text-align:right">about 1.9x</td>
+</tr>
+<tr>
+<td>Full rolling backtest (50,000 scenarios per forecast)</td>
+<td style="text-align:right">about 1.5x (1.47x to 1.59x across runs)</td>
+</tr>
+</tbody>
+</table>
+<p><img src="file:///c:/Users/feudj/Desktop/Ecoles/Cycle_Ingenieur/ESILV/Year_4/Semestre_7/Personal_Projects/var-es-risk-engine/figures/fig5_benchmark.png" alt="Benchmark"></p>
+<p>Where the gain comes from, at 1,000,000 scenarios: folding the portfolio weights into the Cholesky factor (so the N x 5 matrix of simulated returns is never built) already makes NumPy 1.45x faster; the C++ version, which fuses sampling and aggregation in one loop, is another 1.44x faster. Part of that second factor may come from the faster random generator (ziggurat on xoshiro256++, chosen after profiling showed <code>std::normal_distribution</code> was slower than NumPy's own sampler).</p>
+<p>The gain shrinks as the scope widens: only the simulation is accelerated, while pandas estimation, quantiles and the other two methods are unchanged. Reproduce with <code>python scripts/benchmark_cpp.py</code>.</p>
+<h2 id="methodology">Methodology</h2>
+<ul>
+<li><strong>Out-of-sample protocol</strong>: for each day <code>i</code>, models are estimated on the 500 days strictly before <code>i</code> and forecast the VaR and ES of day <code>i</code>. A unit test checks that a shock on the last day changes no forecast (no look-ahead bias).</li>
+<li><strong>Historical simulation</strong>: empirical quantile and tail mean of the P&amp;L over the window.</li>
+<li><strong>Parametric</strong>: closed-form Gaussian VaR and ES from the estimated mean and covariance matrix.</li>
+<li><strong>Monte Carlo</strong>: 50,000 scenarios of correlated Gaussian returns (Cholesky decomposition of the covariance matrix), reduced on the fly to portfolio P&amp;L.</li>
+<li><strong>Validation</strong>: Kupiec proportion-of-failures test, Christoffersen independence and conditional coverage tests, Basel traffic light on 250-day windows.</li>
+<li><strong>Conventions</strong>: P&amp;L is signed (a loss is negative), VaR and ES are positive numbers expressing a loss, a violation is a day where <code>pnl &lt; -VaR</code>.</li>
+</ul>
+<h2 id="project-structure">Project structure</h2>
+<pre class="hljs"><code><div>var-es-risk-engine/
+├── src/riskengine/
+│   ├── portfolio.py        # data loading, log-returns, portfolio P&amp;L
+│   ├── measures.py         # historical, parametric and Monte Carlo VaR/ES
+│   ├── backtest.py         # rolling-window backtest, violation counts
+│   ├── tests_stat.py       # Kupiec, Christoffersen, Basel traffic light
+│   └── plotting.py         # report figures
+├── cpp/
+│   ├── mc_engine.cpp       # C++ Monte Carlo engine (pybind11)
+│   └── setup.py            # build script (MSVC, g++, clang)
+├── scripts/                # download_data, build_pnl, run_backtest, run_stat_tests,
+│                           # make_figures, compare_backends, benchmark_cpp, plot_benchmark
+├── tests/                  # pytest suite (36 tests)
+├── results/                # backtest, statistical tests and benchmark tables (CSV)
+├── figures/                # figures used in this README and in docs/
+└── docs/                   # methodology and project journal
+</div></code></pre>
+<h2 id="installation">Installation</h2>
+<p>Python 3.10 or later. From the project root:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Windows (PowerShell)</span>
+python <span class="hljs-literal">-m</span> venv .venv
+.\.venv\Scripts\Activate.ps1
+python <span class="hljs-literal">-m</span> pip install <span class="hljs-literal">-e</span> . pytest
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment"># Linux / macOS</span>
+python -m venv .venv
+<span class="hljs-built_in">source</span> .venv/bin/activate
+python -m pip install -e . pytest
+</div></code></pre>
+<p>The C++ module is optional: without it the project runs entirely in Python and the C++ tests are skipped. To build it you need a C++17 compiler (Visual Studio Build Tools on Windows, g++ or clang elsewhere):</p>
+<pre class="hljs"><code><div>python -m pip install pybind11 setuptools
+cd cpp
+python setup.py build_ext --build-lib ../src
+cd ..
+</div></code></pre>
+<p>Run the tests with <code>python -m pytest</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>Reproduce the whole analysis (prices are downloaded with <code>yfinance</code>, so re-downloading may give slightly different adjusted prices than the ones used for the committed results):</p>
+<pre class="hljs"><code><div>python scripts/download_data.py
+python scripts/build_pnl.py
+python scripts/run_backtest.py                       # Python backend
+python scripts/run_backtest.py --backend cpp         # C++ backend
+python scripts/compare_backends.py
+python scripts/run_stat_tests.py
+python scripts/make_figures.py
+python scripts/benchmark_cpp.py
+python scripts/plot_benchmark.py
+</div></code></pre>
+<p>Use the library directly:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> riskengine.portfolio <span class="hljs-keyword">import</span> (
+    DEFAULT_WEIGHTS, compute_log_returns, load_prices, portfolio_pnl)
+<span class="hljs-keyword">from</span> riskengine.measures <span class="hljs-keyword">import</span> (
+    historical_var_es, parametric_var_es, monte_carlo_var_es)
+
+returns = compute_log_returns(load_prices())[list(DEFAULT_WEIGHTS)]
+pnl = portfolio_pnl(returns)
+weights = np.array(list(DEFAULT_WEIGHTS.values()))
+
+window = returns.iloc[<span class="hljs-number">-500</span>:]                      <span class="hljs-comment"># the last 500 days</span>
+historical_var_es(pnl.iloc[<span class="hljs-number">-500</span>:], alpha=<span class="hljs-number">0.99</span>)    <span class="hljs-comment"># (var, es), positive losses</span>
+parametric_var_es(window, weights, alpha=<span class="hljs-number">0.99</span>)
+monte_carlo_var_es(window, weights, alpha=<span class="hljs-number">0.99</span>, n_sims=<span class="hljs-number">50</span>_000, backend=<span class="hljs-string">"cpp"</span>)
+</div></code></pre>
+<h2 id="known-limitations-and-roadmap">Known limitations and roadmap</h2>
+<p><strong>Limitations</strong></p>
+<ul>
+<li><strong>Constant volatility.</strong> None of the three models has conditional volatility, which explains the clustering of violations (independence test rejected everywhere).</li>
+<li><strong>Gaussian assumption</strong> for two of the three methods, rejected by the data in the tail. The Monte Carlo method uses the same Gaussian model as the parametric one: it validates the code and carries the C++ engine, but adds no statistical information here.</li>
+<li><strong>Only the VaR is backtested, not the ES.</strong> The ES is not elicitable; Acerbi-Szekely tests are a natural extension.</li>
+<li><strong>Two crises (2008, 2020) hold 25 of the 55 historical violations</strong>, so conclusions rest on few independent episodes. 27 tests are run: the strongest rejections (p &lt; 1e-6) survive a Bonferroni correction, the borderline 97.5% Kupiec rejection (p = 0.029) does not.</li>
+<li><strong>Stylised portfolio</strong>: fixed equal weights with daily rebalancing, no allocation optimisation, linear instruments only (no derivatives). Portfolio P&amp;L is aggregated from log-returns, which slightly approximates simple returns. The ETFs are USD-quoted and no FX conversion is applied, so the 1,000,000 portfolio value is in nominal units.</li>
+<li><strong>Fixed window of 500 days</strong>, no sensitivity analysis (250, 1,000).</li>
+<li><strong>Backtest speed</strong>: the three confidence levels re-simulate the same scenarios (same seed) for each date. Simulating once per date and reusing the scenarios would save two simulations out of three in both backends; it is not done yet.</li>
+<li><strong>C++ backend</strong>: statistically validated, not bit-identical to the Python backend; benchmark ratios come from one laptop.</li>
+</ul>
+<p><strong>Roadmap (v2)</strong></p>
+<ul>
+<li>GARCH volatility with Filtered Historical Simulation, to address the clustering.</li>
+<li>Extreme Value Theory for the tail, and copulas for the dependence structure.</li>
+<li>Expected Shortfall backtest (Acerbi-Szekely).</li>
+<li>Window-length sensitivity analysis.</li>
+<li>Single simulation per date, and a multithreaded C++ engine (release the GIL).</li>
+<li>Interactive dashboard.</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li>Jorion, P. (2007). <em>Value at Risk: The New Benchmark for Managing Financial Risk</em>, 3rd ed. McGraw-Hill.</li>
+<li>Kupiec, P. (1995). Techniques for verifying the accuracy of risk measurement models. <em>Journal of Derivatives</em>, 3(2), 73-84.</li>
+<li>Christoffersen, P. (1998). Evaluating interval forecasts. <em>International Economic Review</em>, 39(4), 841-862.</li>
+<li>Acerbi, C. and Szekely, B. (2014). Backtesting Expected Shortfall. <em>Risk Magazine</em>, December 2014.</li>
+<li>Basel Committee on Banking Supervision (1996). <em>Supervisory framework for the use of &quot;backtesting&quot; in conjunction with the internal models approach to market risk capital requirements</em>.</li>
+<li>Basel Committee on Banking Supervision (2019). <em>Minimum capital requirements for market risk</em> (Fundamental Review of the Trading Book).</li>
+<li>Marsaglia, G. and Tsang, W. W. (2000). The Ziggurat method for generating random variables. <em>Journal of Statistical Software</em>, 5(8).</li>
+<li>Blackman, D. and Vigna, S. (2021). Scrambled linear pseudorandom number generators. <em>ACM Transactions on Mathematical Software</em>, 47(4).</li>
+</ul>
+
+</body>
+
+</html>

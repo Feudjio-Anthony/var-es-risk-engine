@@ -60,3 +60,8 @@
 - Results (ratios): kernel ~2x vs NumPy at >= 50k scenarios, ~1.4x vs NumPy with weights folded into Cholesky; monte_carlo_var_es ~1.9x; full backtest ~1.5x (1.47-1.59x across runs).
 - Decomposition at 1M scenarios: folding the weights alone gives 1.45x in NumPy; fused C++ loop gives another 1.44x (part of it may come from a faster RNG). The gain shrinks as the scope widens (Amdahl): pandas, quantile and the other methods are unchanged.
 - Finding: the backtest simulates the same scenarios three times per day (once per confidence level). Next: simulate once per day.
+
+
+## Session 12 - README
+- Wrote the README: results first (99% table, rates by level, conclusions), performance as ratios with machine description, methodology, structure, installation (Windows and Linux/macOS), usage, limitations and roadmap, references.
+- Every number comes from results/*.csv or docs/methodology.md. Known inefficiency (same scenarios simulated three times per date) listed as a limitation instead of being fixed.
