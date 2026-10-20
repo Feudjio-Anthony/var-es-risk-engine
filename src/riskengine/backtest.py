@@ -117,3 +117,5 @@ def violation_summary(results, alphas=(0.95, 0.975, 0.99)):
                 "expected %": 100 * (1 - a),
             })
     return pd.DataFrame(rows).set_index(["method", "alpha"])
+
+    #hefefefqA
